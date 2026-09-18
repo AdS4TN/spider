@@ -1,8 +1,6 @@
-# Spider｜商品与 SKU 信息采集原型
+# Spider｜淘宝指定商品采集工具
 
-> 基于 Selenium 和 MySQL，演示搜索页发现、详情页解析、SKU 持久化与价格历史记录。
-
-当前业务样例是淘宝“肯德基代下单”商品检索。**这是交互式采集原型，不是代下单交易系统，不包含自动购买、支付或稳定商业采集服务。** 数据完整性取决于访问权限、登录状态和页面结构，不保证固定商品数量或完整 SKU 覆盖。
+> 按关键词采集淘宝指定商品，提取商品信息、SKU 与价格，并保存到 MySQL。
 
 ## 项目能力
 
@@ -69,7 +67,16 @@ DB_PASSWORD=your_database_password
 DB_NAME=taobao_spider
 ```
 
-`main.py` 在导入配置前加载 `.env`。关键词、页数和延迟在 `config/config.py` 的 `SPIDER_CONFIG` 中；默认最多 3 页，不代表一定能获得 144 个商品。
+`main.py` 在导入配置前加载 `.env`。在 `config/config.py` 的 `SPIDER_CONFIG` 中，将 `search_keyword` 修改为目标商品关键词，即可指定采集对象，不限于某一商品类别。例如：
+
+```python
+SPIDER_CONFIG = {
+    "search_keyword": "无线鼠标",
+    "max_pages": 3,
+}
+```
+
+上面仅展示需要关注的配置项，不要用它覆盖整个配置字典。修改 `search_keyword` 和 `max_pages` 后运行 `python main.py`；实际采集数量取决于搜索结果、访问权限与页面加载情况。
 
 ### 3. 准备授权登录态
 
